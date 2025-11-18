@@ -1,0 +1,145 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "0d3f113a-21ba-41cc-afc6-012639e53697")
+	(paper "A4")
+	(lib_symbols)
+	(wire
+		(pts
+			(xy 200.66 97.79) (xy 208.28 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "457c8d21-4b1a-4611-9a49-5fcd7bb61b7d")
+	)
+	(wire
+		(pts
+			(xy 200.66 92.71) (xy 208.28 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "526979b1-9c6b-4237-ba14-e96cc9ed7cae")
+	)
+	(hierarchical_label "Dout"
+		(shape output)
+		(at 100.33 91.44 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "08fad139-e130-48f0-9052-529d46fa08e0")
+	)
+	(hierarchical_label "Din"
+		(shape input)
+		(at 100.33 96.52 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "16afa8fd-2fe8-4ee2-b041-ba1e9fa585b5")
+	)
+	(hierarchical_label "con-a"
+		(shape bidirectional)
+		(at 208.28 92.71 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "20574b02-b9b9-4160-b21d-f9575583d45e")
+	)
+	(hierarchical_label "con-b"
+		(shape bidirectional)
+		(at 208.28 97.79 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "971748d0-6955-494b-b23c-b69e2c5162de")
+	)
+	(hierarchical_label "con"
+		(shape input)
+		(at 100.33 101.6 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "bd70b403-3e24-4e56-98f1-a10443495530")
+	)
+	(sheet
+		(at 151.13 78.74)
+		(size 49.53 35.56)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "cf7e7cc4-1b95-44e5-9df0-d5849191f8af")
+		(property "Sheetname" "rs485-protection"
+			(at 151.13 78.0284 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "rs485-protection.kicad_sch"
+			(at 151.13 114.8846 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "rs485-a" bidirectional
+			(at 200.66 92.71 0)
+			(uuid "0726be25-9ad1-461b-a33f-98dafd80a6a9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "rs485-b" bidirectional
+			(at 200.66 97.79 0)
+			(uuid "e292858d-b860-4d3f-8577-64678c11bf91")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "Diseños de circuitos"
+				(path "/65c875c0-73bd-43df-b6cd-4a685398cace/3b453a73-5bb7-4645-a7e8-6e186968fa05/e8b1a732-4397-461b-a47a-0ae5205e7b91"
+					(page "5")
+				)
+			)
+		)
+	)
+)
