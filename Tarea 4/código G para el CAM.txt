@@ -1,0 +1,275 @@
+código G para el CAM
+
+; ==============================
+; PCB 100x70 mm - GCODE 
+; Origin (0,0) bottom-left
+; T1 = Ø2.0mm endmill; T2 = Ø0.8mm drill
+; FR4 1.6mm thickness; 4 passes x 0.4mm
+; ==============================
+
+(START)
+G21         ; units = mm
+G90         ; absolute coordinates
+G17         ; XY plane
+M6 T1       ; tool 1 (2.0 mm)
+M3 S12000   ; spindle on CW 12000 rpm
+G0 Z5.000   ; safe retract
+
+; ------------------------------------------------
+; PARAMETERS 
+; ------------------------------------------------
+; board extents: X:0..100, Y:0..70
+; depth total = -1.6 mm
+; passes: -0.4, -0.8, -1.2, -1.6
+; feed/cut/plunge
+F_CUT = 300      ; mm/min feed for XY
+F_PLUNGE = 80    ; mm/min plunge
+F_DRILL = 200    ; mm/min drill plunge
+
+; ------------------------------------------------
+; 1) OUTLINE (contorneado) - rectangular (with 4 tabs)
+;    We'll follow rectangle clockwise starting at (0,0)
+;    Tabs: one near midpoint of each side (width ~2mm). Tabs left uncut.
+; ------------------------------------------------
+
+; PASS 1: Z = -0.4
+G0 X0.000 Y0.000
+G0 Z5.000
+G1 Z-0.4 F80.0
+; bottom edge left->right to (100,0), leave tab at ~X=50..52
+G1 X48.0 Y0.000 F300.0
+G0 Z5.000
+G0 X52.0 Y0.000
+G1 Z-0.4 F80.0
+G1 X100.0 Y0.000 F300.0
+; right edge up - leave tab near Y=35..37
+G1 X100.0 Y34.0 F300.0
+G0 Z5.000
+G0 X100.0 Y36.0
+G1 Z-0.4 F80.0
+G1 X100.0 Y70.0 F300.0
+; top edge left - leave tab near X=50..52
+G1 X52.0 Y70.0 F300.0
+G0 Z5.000
+G0 X48.0 Y70.0
+G1 Z-0.4 F80.0
+G1 X0.000 Y70.0 F300.0
+; left edge down - leave tab near Y=35..37
+G1 X0.000 Y34.0 F300.0
+G0 Z5.000
+G0 X0.000 Y36.0
+G1 Z-0.4 F80.0
+G1 X0.000 Y0.000 F300.0
+G0 Z5.000
+
+; PASS 2: Z = -0.8
+G1 Z-0.8 F80.0
+G1 X48.0 Y0.000 F300.0
+G0 Z5.000
+G0 X52.0 Y0.000
+G1 Z-0.8 F80.0
+G1 X100.0 Y0.000 F300.0
+G1 X100.0 Y34.0 F300.0
+G0 Z5.000
+G0 X100.0 Y36.0
+G1 Z-0.8 F80.0
+G1 X100.0 Y70.0 F300.0
+G1 X52.0 Y70.0 F300.0
+G0 Z5.000
+G0 X48.0 Y70.0
+G1 Z-0.8 F80.0
+G1 X0.000 Y70.0 F300.0
+G1 X0.000 Y34.0 F300.0
+G0 Z5.000
+G0 X0.000 Y36.0
+G1 Z-0.8 F80.0
+G1 X0.000 Y0.000 F300.0
+G0 Z5.000
+
+; PASS 3: Z = -1.2
+G1 Z-1.2 F80.0
+G1 X48.0 Y0.000 F300.0
+G0 Z5.000
+G0 X52.0 Y0.000
+G1 Z-1.2 F80.0
+G1 X100.0 Y0.000 F300.0
+G1 X100.0 Y34.0 F300.0
+G0 Z5.000
+G0 X100.0 Y36.0
+G1 Z-1.2 F80.0
+G1 X100.0 Y70.0 F300.0
+G1 X52.0 Y70.0 F300.0
+G0 Z5.000
+G0 X48.0 Y70.0
+G1 Z-1.2 F80.0
+G1 X0.000 Y70.0 F300.0
+G1 X0.000 Y34.0 F300.0
+G0 Z5.000
+G0 X0.000 Y36.0
+G1 Z-1.2 F80.0
+G1 X0.000 Y0.000 F300.0
+G0 Z5.000
+
+; PASS 4 (final cut-through): Z = -1.6
+G1 Z-1.6 F80.0
+G1 X48.0 Y0.000 F300.0
+G0 Z5.000
+G0 X52.0 Y0.000
+G1 Z-1.6 F80.0
+G1 X100.0 Y0.000 F300.0
+G1 X100.0 Y34.0 F300.0
+G0 Z5.000
+G0 X100.0 Y36.0
+G1 Z-1.6 F80.0
+G1 X100.0 Y70.0 F300.0
+G1 X52.0 Y70.0 F300.0
+G0 Z5.000
+G0 X48.0 Y70.0
+G1 Z-1.6 F80.0
+G1 X0.000 Y70.0 F300.0
+G1 X0.000 Y34.0 F300.0
+G0 Z5.000
+G0 X0.000 Y36.0
+G1 Z-1.6 F80.0
+G1 X0.000 Y0.000 F300.0
+G0 Z5.000
+
+; ------------------------------------------------
+; 2) POCKET - microSD (center X=20 Y=20, W=15 H=12)
+;    Pocket rectangular raster (simple)
+; ------------------------------------------------
+; pocket bounds:
+; left = 20 - 15/2 = 12.5
+; right= 20 + 15/2 = 27.5
+; bottom= 20 - 12/2 = 14
+; top = 20 + 12/2 = 26
+; stepover ~1.0 mm
+G0 X12.5 Y14.0 Z5.000
+; PASS 1 pocket (-0.4)
+G1 Z-0.4 F80.0
+G1 X27.5 Y14.0 F300.0
+G1 X27.5 Y26.0 F300.0
+G1 X12.5 Y26.0 F300.0
+G1 X12.5 Y14.0 F300.0
+G0 Z5.000
+; PASS 2 (-0.8)
+G0 X12.5 Y14.0
+G1 Z-0.8 F80.0
+G1 X27.5 Y14.0 F300.0
+G1 X27.5 Y26.0 F300.0
+G1 X12.5 Y26.0 F300.0
+G1 X12.5 Y14.0 F300.0
+G0 Z5.000
+; PASS 3 (-1.2)
+G0 X12.5 Y14.0
+G1 Z-1.2 F80.0
+G1 X27.5 Y14.0 F300.0
+G1 X27.5 Y26.0 F300.0
+G1 X12.5 Y26.0 F300.0
+G1 X12.5 Y14.0 F300.0
+G0 Z5.000
+; PASS 4 (-1.6 final)
+G0 X12.5 Y14.0
+G1 Z-1.6 F80.0
+G1 X27.5 Y14.0 F300.0
+G1 X27.5 Y26.0 F300.0
+G1 X12.5 Y26.0 F300.0
+G1 X12.5 Y14.0 F300.0
+G0 Z5.000
+
+; ------------------------------------------------
+; 3) POCKET - USB-C (center X=80 Y=20, W=14 H=7)
+;    bounds:
+; left = 80 - 7 = 73.0 (since W/2 = 7)
+; right= 87.0
+; bottom= 20 - 3.5 = 16.5
+; top = 23.5
+; ------------------------------------------------
+G0 X73.0 Y16.5 Z5.000
+; PASS 1 (-0.4)
+G1 Z-0.4 F80.0
+G1 X87.0 Y16.5 F300.0
+G1 X87.0 Y23.5 F300.0
+G1 X73.0 Y23.5 F300.0
+G1 X73.0 Y16.5 F300.0
+G0 Z5.000
+; PASS 2 (-0.8)
+G0 X73.0 Y16.5
+G1 Z-0.8 F80.0
+G1 X87.0 Y16.5 F300.0
+G1 X87.0 Y23.5 F300.0
+G1 X73.0 Y23.5 F300.0
+G1 X73.0 Y16.5 F300.0
+G0 Z5.000
+; PASS 3 (-1.2)
+G0 X73.0 Y16.5
+G1 Z-1.2 F80.0
+G1 X87.0 Y16.5 F300.0
+G1 X87.0 Y23.5 F300.0
+G1 X73.0 Y23.5 F300.0
+G1 X73.0 Y16.5 F300.0
+G0 Z5.000
+; PASS 4 (-1.6)
+G0 X73.0 Y16.5
+G1 Z-1.6 F80.0
+G1 X87.0 Y16.5 F300.0
+G1 X87.0 Y23.5 F300.0
+G1 X73.0 Y23.5 F300.0
+G1 X73.0 Y16.5 F300.0
+G0 Z5.000
+
+; ------------------------------------------------
+; 4) DRILLING (example holes for pins / mounting)
+;    Switch to drill tool (T2 Ø0.8 mm)
+;    Drill depth = -1.8 mm (through)
+; ------------------------------------------------
+M5
+G0 Z5.000
+M6 T2
+M3 S10000
+; microSD pin holes (example positions near microSD pocket)
+G0 X18.0 Y18.0
+G1 Z-1.8 F200.0
+G0 Z5.000
+G0 X22.0 Y18.0
+G1 Z-1.8 F200.0
+G0 Z5.000
+G0 X18.0 Y22.0
+G1 Z-1.8 F200.0
+G0 Z5.000
+G0 X22.0 Y22.0
+G1 Z-1.8 F200.0
+G0 Z5.000
+
+; USB-C pin holes (example)
+G0 X78.0 Y18.0
+G1 Z-1.8 F200.0
+G0 Z5.000
+G0 X82.0 Y18.0
+G1 Z-1.8 F200.0
+G0 Z5.000
+
+; Screw / mounting hole examples (corners)
+G0 X6.0 Y6.0
+G1 Z-1.8 F200.0
+G0 Z5.000
+G0 X94.0 Y6.0
+G1 Z-1.8 F200.0
+G0 Z5.000
+G0 X94.0 Y64.0
+G1 Z-1.8 F200.0
+G0 Z5.000
+G0 X6.0 Y64.0
+G1 Z-1.8 F200.0
+G0 Z5.000
+
+; ------------------------------------------------
+; END
+; ------------------------------------------------
+M5
+G0 Z20.000
+G0 X0 Y0
+M30
+; ==============================
+; Fin del archivo
+; ==============================
